@@ -1,16 +1,11 @@
 [phases.setup]
-# Forçamos o PHP 8.1 estável, que roda o Laravel 8 perfeitamente
-nixPkgs = ["php81", "php81Packages.composer", "php81Packages.gd", "php81Packages.pdo_mysql", "php81Packages.bcmath"]
+nixPkgs = ["php81", "php81Packages.composer"]
 
 [phases.build]
-# Ignora a verificação de versão da plataforma para evitar o erro do "7.3|^8.0"
-cmds = ["composer install --ignore-platform-reqs --no-dev --optimize-autoloader --no-interaction"]
+cmds = ["composer install --ignore-platform-reqs --no-interaction --no-dev"]
 
 [start]
 cmd = "php artisan serve --host 0.0.0.0 --port $PORT"
 
 [variables]
-# Configurações essenciais para o Railway entender que é PHP
 NIXPACKS_PHP_ROOT = "public"
-NIXPACKS_WEB_ROOT = "public"
-APP_ENV = "production"
