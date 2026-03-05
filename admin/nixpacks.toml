@@ -16,3 +16,18 @@ cmd = "php artisan serve --host 0.0.0.0 --port $PORT"
 [variables]
 # Define o diretório raiz da aplicação como a pasta /public do Laravel.
 NIXPACKS_WEB_ROOT = "public"
+
+
+providers = ["php"]
+
+[phases.setup]
+nixPkgs = ["php81", "php81Packages.composer", "php81Packages.gd", "php81Packages.pdo_mysql"]
+
+[phases.build]
+cmds = ["composer install --no-dev --optimize-autoloader"]
+
+[start]
+cmd = "php artisan serve --host 0.0.0.0 --port $PORT"
+
+[variables]
+NIXPACKS_WEB_ROOT = "public"
