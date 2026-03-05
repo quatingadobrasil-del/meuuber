@@ -1,0 +1,17 @@
+# Configuração para o deploy do Laravel no Railway.app
+
+[phases.setup]
+# Instala as extensões PHP necessárias, incluindo gd para imagens e pdo_mysql para o banco de dados.
+nixPkgs = ["php81Packages.composer", "php81Packages.gd", "php81Packages.pdo_mysql"]
+
+[phases.build]
+# Instala as dependências do Composer, otimizando para produção.
+cmds = ["composer install --no-dev --optimize-autoloader"]
+
+[start]
+# Comando para iniciar o servidor PHP com o Artisan, usando a porta fornecida pelo Railway.
+cmd = "php artisan serve --host 0.0.0.0 --port $PORT"
+
+[variables]
+# Define o diretório raiz da aplicação como a pasta /public do Laravel.
+NIXPACKS_WEB_ROOT = "public"
