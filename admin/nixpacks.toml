@@ -1,33 +1,16 @@
-# Configuração para o deploy do Laravel no Railway.app (v2 - Corrigido)
-
 [phases.setup]
-# Define a versão do PHP como 8.1 e instala as extensões necessárias.
-# O formato "^7.3|^8.0" não é suportado; uma versão específica deve ser declarada.
-nixPkgs = ["php81", "php81Packages.composer", "php81Packages.gd", "php81Packages.pdo_mysql"]
+nixPkgs = ["php81", "php81Packages.composer", "php81Packages.gd", "php81Packages.pdo_mysql", "php81Packages.bcmath"]
 
 [phases.build]
-# Instala as dependências do Composer, otimizando para produção.
-cmds = ["composer install --no-dev --optimize-autoloader"]
+# Garante que as dependências sejam instaladas corretamente
+cmds = ["composer install --no-dev --optimize-autoloader --no-interaction"]
 
 [start]
-# Comando para iniciar o servidor PHP com o Artisan, usando a porta fornecida pelo Railway.
+# Comando ajustado para rodar o Laravel corretamente no Railway
 cmd = "php artisan serve --host 0.0.0.0 --port $PORT"
 
 [variables]
-# Define o diretório raiz da aplicação como a pasta /public do Laravel.
+# Essencial para o Railway saber onde entregar o tráfego do site
+NIXPACKS_PHP_ROOT = "public"
 NIXPACKS_WEB_ROOT = "public"
-
-
-providers = ["php"]
-
-[phases.setup]
-nixPkgs = ["php81", "php81Packages.composer", "php81Packages.gd", "php81Packages.pdo_mysql"]
-
-[phases.build]
-cmds = ["composer install --no-dev --optimize-autoloader"]
-
-[start]
-cmd = "php artisan serve --host 0.0.0.0 --port $PORT"
-
-[variables]
-NIXPACKS_WEB_ROOT = "public"
+APP_ENV = "production"
