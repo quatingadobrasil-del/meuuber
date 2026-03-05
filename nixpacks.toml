@@ -1,8 +1,9 @@
-# Configuração para o deploy do Laravel no Railway.app
+# Configuração para o deploy do Laravel no Railway.app (v2 - Corrigido)
 
 [phases.setup]
-# Instala as extensões PHP necessárias, incluindo gd para imagens e pdo_mysql para o banco de dados.
-nixPkgs = ["php81Packages.composer", "php81Packages.gd", "php81Packages.pdo_mysql"]
+# Define a versão do PHP como 8.1 e instala as extensões necessárias.
+# O formato "^7.3|^8.0" não é suportado; uma versão específica deve ser declarada.
+nixPkgs = ["php81", "php81Packages.composer", "php81Packages.gd", "php81Packages.pdo_mysql"]
 
 [phases.build]
 # Instala as dependências do Composer, otimizando para produção.
