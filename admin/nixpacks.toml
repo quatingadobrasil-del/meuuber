@@ -2,15 +2,12 @@
 nixPkgs = ["php81", "php81Packages.composer"]
 
 [phases.install]
-# Força a instalação das dependências PRIMEIRO
+# Apenas instala as pastas necessárias (a vendor)
 cmds = ["composer install --ignore-platform-reqs --no-interaction --no-dev --optimize-autoloader"]
 
-[phases.build]
-# Só roda o cache DEPOIS que o 'install' terminou e a pasta vendor existe
-cmds = ["php artisan config:cache", "php artisan route:cache"]
-
-
+[start]
+# Liga o servidor direto, sem tentar fazer cache ou mexer no banco antes da hora
+cmd = "php artisan serve --host 0.0.0.0 --port $PORT"
 
 [variables]
 NIXPACKS_PHP_ROOT = "public"
-APP_KEY = "base64:uS6yU6V3Xz8Bv9J3Z4X5C6V7B8N9M0L1K2J3H4G5F6D=" # Chave temporária para o build passar
